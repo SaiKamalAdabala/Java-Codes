@@ -9,7 +9,7 @@ public class Application {
 		Filter filter= new Filter();
 		Mapper mapper= new Mapper();
 		List<String> stringList= Arrays.asList("aaryanna", "aayanna", "airianna", "alassandra","allanna", "allannah", "allessandra", "allianna", "allyanna","anastaisa", "anastashia", "anastasia", "annabella", "annabelle","annebelle");
-		stringList.stream().filter(filter.nameStartingWithPrefix("aa")).map(mapper.getDistinctCharactersCount()).forEach(System.out::println);
+		stringList.stream().filter(filter.nameStartingWithPrefix("aa")).map(mapper.getDistinctCharecterCount()).forEach(System.out::println);
 		
 	}
 
