@@ -1,0 +1,174 @@
+												SQL Assignment Answers:
+
+
+Excercise-1:Answers
+
+1.SELECT title, book_num FROM book_fileWHERE year >= ‘1984’;
+
+2.SELECT * FROM book_fileWHERE year < ‘1984’OR year > ‘1986’;
+
+3.SELECT pubname, pubaddress FROM PublishersORDER BY pubname DESC;
+
+4.SELECT * FROM book_fileWHERE year> ‘1985’ AND year < ‘1987’;
+
+5.SELECT COUNT(book_num) FROM book_file;
+
+6.SELECT MAX(edition) FROM book_file;
+
+7.SELECT book_num, topic , title FROM book_fileWHERE topic LIKE ‘data%;
+
+8.SELECT pubname, pubcode, pubaddress FROM PublisherWHERE pubname LIKE ‘a%’ AND pubcode < ‘P5’ ;
+
+9.SELECT DISTINCT topic FROM book_file;
+
+
+
+Exercise-2:Answers
+
+1.create table Employee(EmpNo varchar(3) UNIQUE, Name varchar(10) NOT NULL, DeptNo varchar(3) NOT NULL);
+2.INSERT INTO Employee()VALUES('E1', 'Sandy', 'D1');
+3.ALTER TABLE EmployeeADD RoomNovarchar(3);
+4.UPDATE EmployeeSET RoomNo = ‘R1’ WHERE DeptNo = ‘D2’;
+5.UPDATE EmployeeSET Name = REPLACE(Name, 'Mog', 'Fido');
+6.ALTER TABLE Employee DROP Name;
+7.DELETE from EmployeeWHERE DeptNo = 'D2';
+
+
+Exercise-3:Answers
+
+1.SELECT Branch.Branchname FROM BranchINNER JOIN Area ON Branch.area_code = Area.area_codeWHERE manager IN (‘Bloggs’);
+2.SELECT AVG(product_price) FROM Product;
+3.SELECT MAX(product_price) FROM Product;
+4.SELECT town FROM BranchINNER JOIN Stock ON Branch.branch_code = Stock.branch_code INNER JOIN Product ON Stock.product_code =Product.product_codeWHERE prod_desc IN (‘Posh-Dress’);
+5.SELECT Product.prod_desc, Branch.Branchname from ProductINNER JOIN Branch ON Stock.branch_code = Branch.branch_codeINNER JOIN Product ON Stock.product_code = Product.product_codeWHERE stock_quant <4; 
+
+
+
+Exercise-4:Answers
+
+Create a table of name Computer:
+
+CREATE TABLE Computer(
+Id number(10) ,
+CompID varchar2(10),
+MfgName varchar2(10),
+MfgModel varchar2(10),
+ProType varchar2(10)
+);
+
+Create a table of name Employee:
+
+CREATE TABLE Employee(
+Id number(10) ,
+EmpNum int,
+EmpLastName varchar2(10),
+EmpFirstName varchar2(10),
+EmpPhone number(20)
+);
+ 
+Create a table of name Named PC:
+
+CREATE TABLE PC(
+Id number(10) ,
+TagNum number(10),
+CompID varchar2(10)  references Computer(CompID),
+EmpNum int references Employee(EmpNum),
+Location varchar2(20)
+);
+
+Create a table of name Named Package:
+
+CREATE TABLE Package(
+Id number(10) ,
+PackID varchar2(10),
+PackName varchar2(20),
+PackVer number(10),
+PackType varchar2(20),
+PackCost number(10)
+);
+
+Create a table of name Named Software:
+
+CREATE TABLE Software(
+Id number(10) ,
+PackID varchar2(10) references Package(PackID),
+TagNum number(10) references PC(TagNum),
+InstallDate Date,
+SoftCost number(10)
+);
+
+
+Entering records for Computer :
+//
+INSERT INTO Computer VALUES(1,'B121','Bantam','48X','486DX');
+INSERT INTO Computer VALUES(2,'B221','Bantam','48D','486DX2');
+INSERT INTO Computer VALUES(3,'C007','Cody','D1','486DX');
+INSERT INTO Computer VALUES(4,'M759','Lemmin','GRL','486SX');
+//
+
+Entering records for Employee:
+//
+INSERT INTO Employee VALUES(1,124,'Alvarez','Ramon',2212);
+INSERT INTO Employee VALUES(2,567,'Fienstein','Betty',8761);
+INSERT INTO Employee VALUES(3,611,'Dinh','Melissa',2963);
+//
+
+
+Entering records for PC:
+//
+INSERT INTO PC VALUES(1,32808,'M759',611,'Accounting');
+INSERT INTO PC VALUES(2,37691,'B121',124,'Sales');
+INSERT INTO PC VALUES(3,57772,'C007',611,'Information Systems');
+INSERT INTO PC VALUES(4,59836,'B221',124,'Home');
+INSERT INTO PC VALUES(5,77740,'M759',567,'Home');
+//
+
+
+Entering records for Software:
+//
+INSERT INTO Software VALUES(1,'AC01',32808,'13/09/1999',754.95);
+INSERT INTO Software VALUES(2,'DB32',32808,'12/03/1999',380.00);
+INSERT INTO Software VALUES(3,'DB32',37691,'15/06/1999',380.00);
+INSERT INTO Software VALUES(4,'DB33',57772,'27/05/1999',412.77);
+INSERT INTO Software VALUES(5,'WP08',32808,'1/12/1999',185.00);
+INSERT INTO Software VALUES(6,'WP08',37691,'15/06/1999',227.50);
+INSERT INTO Software VALUES(7,'WP08',57772,'27/05/1999',170.24);
+INSERT INTO Software VALUES(8,'WP08',59836,'30/10/1999',35.00);
+INSERT INTO Software VALUES(9,'WP08',77740,'27/05/1999',35.00);
+//
+
+
+Entering records for Package:
+//
+INSERT INTO Package VALUES(1,'AC01','Boise Accounting',3,'Accounting',725.83);
+INSERT INTO Package VALUES(2,'DB32','Manta',1.5,'Database',380.00);
+INSERT INTO Package VALUES(3,'DB33','Manta',2.1,'Database',430.18);
+INSERT INTO Package VALUES(4,'SS11','LimitLess View',5.3,'Spreadsheet',271.95);
+INSERT INTO Package VALUES(5,'WP08','Words & More',2,'Word Processing',185.00);
+INSERT INTO Package VALUES(6,'WP09','Freeware Processing',4.27,'Word Processing',30.00);
+//
+
+
+
+Queries:
+
+1.SELECT EmpNum, ID FROM Employee;
+2.SELECT * FROM Computer;
+3.SELECT * FROM ComputerWHERE ProTypeIN('486DX');
+4.SELECT * FROM PCWHERE NOT Location IN('Home');
+5.SELECT CompID, MfgModel FROM ComputerWHERE ProType IN('486DX') OR ('486DX2');
+6.SELECT TagNum, CompID FROM PCWHERE NOT Location IN('Home');
+7.SELECT TagNum, PackIDfrom SoftwareWHERE SoftCost BETWEEN '200' AND '500';
+8.SELECT TagNum, PackID , concat('$',(SoftCost * 0.95)) AS DiscountedSoftwareCost FROM Software;
+9.SELECT TagNum, PackID ,(SoftCost * 0.95) AS DiscountedSoftwareCost FROM SoftwareHAVING DiscountedSoftwareCost >= 400 ;
+10.SELECT PackName, PackID FROM PackageWHERE PackType IN ('Database') OR ('Spreadsheet');
+11.SELECT EmpFirstName , COUNT(EmpFirstName) AS Count FROM EmployeeWHERE EmpLastName IN ('Feinstein'); 
+12.SELECT * FROM PackageORDER BY PackName;
+13.SELECT * FROM PackageORDER BY PackCost DESC;
+14.SELECT COUNT(PackCost) AS Count FROM PackageWHERE PackCost > 400;
+15.SELECT AVG(PackCost) AS Average FROM PackageWHERE PackType IN ('Word Processing');
+16.SELECT PackID, PackName FROM Package WHERE PackCost > (SELECT AVG(PackCost) FROM Package);
+17.SELECT PC.TagNum, PC.CompID, Computer.MfgName FROM ComputerINNER JOIN PC on Computer.CompID = PC.CompID;   
+18.SELECT PC.TagNum, PC.CompID, Computer.MfgName FROM PCINNER JOIN Computer on PC.CompID = Computer.CompIDWHERE PC.EmpNum = '124'; 
+19.SELECT Employee.EmpNum, Employee.EmpFirstName FROM EmployeeINNER JOIN PC on Employee.EmpNum = PC.EmpNumWHERE NOT Location IN ('Home');
+20.SELECT PC.TagNum, PC.CompID, Package.PackName, Package.PackVer, Package.PackType FROM PackageINNER JOIN PC on Package.ID = PC.ID
